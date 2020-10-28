@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AccoutTable extends Migration
+class AccountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class AccoutTable extends Migration
      */
     public function up()
     {
-        Schema::create('accout', function (Blueprint $table) {
+
+        Schema::create('account', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('name', 20);
             $table->string('password', 20);
@@ -28,6 +29,8 @@ class AccoutTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accout');
+        Schema::table('account', function (Blueprint $table) {
+            //
+        });
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class NewTable extends Migration
+class NewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class NewTable extends Migration
      */
     public function up()
     {
-        Schema::create('new', function (Blueprint $table) {
+        Schema::create('news', function (Blueprint $table) {
             $table->Increments('id');
             $table->char('newsID', 32);
             $table->string('name', 100);
