@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AccountTable extends Migration
+class CreateTitlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class AccountTable extends Migration
      */
     public function up()
     {
-
-        Schema::create('account', function (Blueprint $table) {
-            $table->Increments('id');
-            $table->string('name', 20);
-            $table->string('password', 20);
+        Schema::create('titles', function (Blueprint $table) {
+            $table->id();
+            $table->string('text',64)->nullable();
+            $table->string('img',100)->nullable();
+            $table->boolean('sh')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,8 +30,6 @@ class AccountTable extends Migration
      */
     public function down()
     {
-        Schema::table('account', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('titles');
     }
 }
