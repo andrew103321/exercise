@@ -54,6 +54,15 @@ Route::prefix('admin')->group(function(){
     Route::get('/admin', [AdminController::class,'index']);
     Route::get('/menu', [MenuController::class,'index']);
 
+
+    Route::post('/title', [TitleController::class,'store']);
+    Route::post('/ad', [AdController::class,'store']);
+    Route::post('/imag', [ImagController::class,'store']);
+    Route::post('/mvim', [MvimController::class,'store']);
+    Route::post('/news', [NewsController::class,'store']);
+    Route::post('/admin', [AdminController::class,'store']);
+    Route::post('/menu', [MenuController::class,'store']);
+
    
 });
 

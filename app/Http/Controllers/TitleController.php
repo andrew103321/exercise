@@ -58,6 +58,21 @@ class TitleController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->hasFile('img') && $request->file('img')->isValid()) {
+            // 檔名
+           $filename = $request->file('img')->getClientOriginalName();
+           // 存取方式               放置 img 目錄下 檔名  $filename
+           $request->file('img')->storeAs('public',$filename);
+           $text = $request->input('text');
+
+           $title = new Title;
+           $title->img= $filename ;
+           $title->text= $text;
+           $title->save();
+        }
+        
+        
+        return redirect('/admin/title');
     }
 
     /**

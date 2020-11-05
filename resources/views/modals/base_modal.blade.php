@@ -2,6 +2,7 @@
 <div class="modal fade" id="baseModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenter" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <form action="{{$action}}" method="POST" enctype="multipart/form-data" class='w-100'>
+      @csrf
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalCenter">{{$modal_hearder}}</h5>
@@ -38,8 +39,8 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary">儲存</button>
+        <button type="reset" class="btn btn-secondary" >重置</button>
+        <button type="submit" class="btn btn-primary">儲存</button>
       </div>
     </div>
   </form>
