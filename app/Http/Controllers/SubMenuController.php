@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Menu;
-
-class MenuController extends Controller
+use App\Models\SubMenu;
+class SubMenuController extends Controller
 {
-
-    public function index()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index($menu_id)
     {
         //
-        $all = Menu::all();
-        $cols = ["主選單","網址","次選單","顯示","刪除","操作",""];
+        $all = SubMenu::where("menu_id",$menu_id)->get();
+        $cols = ["次選單","次選單網址","刪除","操作",""];
         $rows = [];
         foreach ($all as $a){
             $tmp=[
@@ -23,18 +26,6 @@ class MenuController extends Controller
                 [
                     "tag"=>"",
                     "text"=>$a->href
-                ],
-                [
-                    "tag"=>"",
-                    "text"=>$a->subs->count(),
-                ],
-                [
-                    "tag"=>"button",
-                    "type"=>"button",
-                    "btn_color"=>"btn-success", 
-                    "action"=>"show", 
-                    'id'=>$a->id,
-                    'text'=>($a->sh==1)?"顯示":"隱藏" 
                 ],
                 [
                     "tag"=>"button",
@@ -52,23 +43,16 @@ class MenuController extends Controller
                     'id'=>$a->id,
                     'text'=>"編輯",
                 ],
-                [
-                    "tag"=>"button",
-                    "type"=>"button",
-                    "btn_color"=>"btn-warning", 
-                    "action"=>"sub", 
-                    'id'=>$a->id,
-                    'text'=>"次選單",
-                ]
             ];
             $rows[] = $tmp;
         };
 
         $view = [
-            'header'=>'選單管理',
-            'module'=>'Menu',
+            'header'=>'次次選單管理',
+            'module'=>'SubMenu',
             "cols"=>$cols,
-            'rows'=>$rows
+            'rows'=>$rows,
+            'menu_id'=>$menu_id
         ];
         return view('backend.module',$view);
     }
@@ -78,21 +62,21 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($menu_id)
     {
         //
         $view=[
-            'action'=>'/admin/menu',
-            'modal_hearder'=>'選單管理',
+            'action'=>'/admin/submenu'.$menu_id,
+            'modal_hearder'=>'新增次選單管理',
             'modal_body'=>[
                 [
-                    'label'=>'選單名稱名稱',
+                    'label'=>'次選單名稱',
                     'tag'=>'input',
                     'type'=>'text',
                     'name'=>'text'
                 ],
                 [
-                    'label'=>'選單網址',
+                    'label'=>'次選單網址',
                     'tag'=>'input',
                     'type'=>'text',
                     'name'=>'href'
@@ -101,6 +85,7 @@ class MenuController extends Controller
             ],
         ];
         return view('modals.base_modal',$view);
+       
     }
 
     /**
@@ -109,21 +94,18 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$menu_id)
     {
         //
-        
-           $Menu = new Menu;
-           $text = $request->input('text');
-           $href = $request->input('href');
-
-           $Menu->text= $text;
-           $Menu->href= $href;
-           $Menu->save();
-        
-        
-        
-        return redirect('/admin/menu');
+        $sub = new SubMenu;
+        $sub = $request->input('text');
+        $sub = $request->input('href');
+        $sub->menu_id=$menu_id;
+        $sub->save();
+     
+     
+     
+     return redirect('/admin/submenu'.$menu_id);
     }
 
     /**
@@ -146,27 +128,27 @@ class MenuController extends Controller
     public function edit($id)
     {
         //
-        $menu =  menu:: find($id);
+        $sub =  SubMenu:: find($id);
 
         $view=[
-            'action'=>'/admin/menu/'.$id,
+            'action'=>'/admin/addsubmenu/'.$id,
             'method'=>'PATCH',
-            'modal_hearder'=>'編輯網站標題',
+            'modal_hearder'=>'次選單名稱',
             'modal_body'=>[
 
                 [
-                    'label'=>'名稱',
+                    'label'=>'次選單網址',
                     'tag'=>'input',
                     'type'=>'text',
                     'name'=>'text',
-                    'value'=>$menu->text
+                    'value'=>$sub->text
                 ],
                 [
                     'label'=>'網址',
                     'tag'=>'input',
                     'type'=>'text',
-                    'name'=>'href',
-                    'value'=>$menu->href
+                    'name'=>'text',
+                    'value'=>$sub->href
                 ],
 
             ],
@@ -185,34 +167,20 @@ class MenuController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $Menu = Menu::find($id);
+        $sub = SubMenu::find($id);
    
-        if($Menu->text!=$request->input('text')){
-            $text = $request->input('text');
-            $Menu->text= $text;
+        
+        if($sub->text!=$request->input('text')){
+            $sub->href= $request->input('text');
+        }
+        if($sub->text!=$request->input('href')){
+            $sub->href= $request->input('href');
         }
         
-        if($Menu->href!=$request->input('href')){
-            $href = $request->input('href');
-            $Menu->href= $href;
-        }
-        
-        $Menu->save();
+        $sub->save();
 
-        return redirect("admin/menu");
+        return redirect("admin/title".$sub->menu_id);
     }
-
-    /** 
-     * 改變資料顯示方法
-     * **/
-
-     public function display($id){
-        $Menu = Menu::find($id);
-         
-        $Menu->sh=($Menu->sh+1)%2;
-        $Menu->save();
-            
-     }
 
     /**
      * Remove the specified resource from storage.
@@ -223,7 +191,6 @@ class MenuController extends Controller
     public function destroy($id)
     {
         //
-        Menu::destroy($id);
+        SubMenu::destroy($id);
     }
- 
 }

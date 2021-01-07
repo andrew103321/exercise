@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="baseModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenter" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <form action="{{$action}}" method="POST" enctype="multipart/form-data" class='w-100'>
+    <form action="{{strtolower($action)}}" method="POST" enctype="multipart/form-data" class='w-100'>
       @csrf
     <div class="modal-content">
       <div class="modal-header">
@@ -11,6 +11,9 @@
         </button>
       </div>
       <div class="modal-body">
+        @isset($method)
+            @method($method)
+        @endisset
         <table class='m-auto'>
           @isset($modal_body)
             @foreach ($modal_body as $row)
@@ -22,6 +25,9 @@
                             @include('layout.input',$row)
                             @break
                         @case('textarea')
+                            @break
+                        @case('img')
+                             @include('layout.img',$row)
                             @break
                     @endswitch
                   </td>

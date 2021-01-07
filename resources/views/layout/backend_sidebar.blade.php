@@ -3,7 +3,7 @@
         <div class=" border-bottom my-2 p-1 text-center">後臺管理</div>
         <div class="list-group-item action px-0"><a class="d-block" href="/admin/title"> 標題</a></div>
         <div class="list-group-item action px-0"><a class="d-block" href="/admin/ad"> 動態</a></div>
-        <div class="list-group-item action px-0"><a class="d-block" href="/admin/imag"> 校園</a></div>
+        <div class="list-group-item action px-0"><a class="d-block" href="/admin/image"> 校園</a></div>
         <div class="list-group-item action px-0"><a class="d-block" href="/admin/mvim"> 動畫</a></div>
         <div class="list-group-item action px-0"><a class="d-block" href="/admin/total"> 進站人數</a></div>
         <div class="list-group-item action px-0"><a class="d-block" href="/admin/bottom"> 頁尾版權</a></div>
