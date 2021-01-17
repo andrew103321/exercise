@@ -12,14 +12,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{asset('storage/01B01.jpg')}}" alt="" class='w-100'>
+            {{-- @isset($useTitle) --}}
+            <img src="{{asset('storage/'.$title->img)}}" alt="{{$title->text}}" class='w-100'>
+            {{-- @endisset --}}
         </div>
         <div class="main d-flex" style="height:568px;">
             @yield("main")
         </div>
 
     <div class="footer">
-        <div class="text-center" style='height:100px;line-height:100px;background:yellow;'>頁尾版權</div>
+        <div class="text-center" style='height:100px;line-height:100px;background:yellow;'>{{$bottom}}</div>
     </div>
 </div>
 <div id="modal"></div>

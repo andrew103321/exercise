@@ -15,6 +15,7 @@ class TitleController extends Controller
     public function index()
     {
         //
+    
         $all = Title::all();
         $cols = ["網站標題","替代文字","顯示","刪除","操作"];
         $rows = [];
@@ -56,14 +57,21 @@ class TitleController extends Controller
             ];
             $rows[] = $tmp;
         };
+     
+        $this->view['header'] = '網站標題管理';
+        $this->view['module'] = 'Title';
+        $this->view['cols'] = $cols;
+        $this->view['rows'] = $rows;
 
-        $view = [
-            'header'=>'網站標題管理',
-            'module'=>'Title',
-            "cols"=>$cols,
-            'rows'=>$rows
-        ];
-        return view('backend.module',$view);
+        
+        // $view = [
+        //     'header'=>'網站標題管理',
+        //     'module'=>'Title',
+        //     "cols"=>$cols,
+        //     'rows'=>$rows,
+        //     'useTitle'=>$this->useTitle
+        // ];
+        return view('backend.module',$this->view);
     }
 
     /**
@@ -216,20 +224,20 @@ class TitleController extends Controller
             // 找出隱藏的第一筆變顯示
             $findDefault=Title::where("sh",0)->first();
             $findDefault->sh=1;
-
             $findDefault->save();
+            $img = $findDefault->img;
 
         }else{
             $title->sh=1;
             $findShow = Title::where("sh",1)->first();
             $findShow->sh=0;
-
-        
             $findShow->save();
+            $img = $title->img;
          }
 
          $title->save();
             
+         return  $img;
      }
 
     /**

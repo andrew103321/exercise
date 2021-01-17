@@ -35,7 +35,8 @@ class BottomController extends Controller
                'header'=>'頁尾版權管理',
                'module'=>'Bottom',
                "cols"=>$cols,
-               'rows'=>$rows
+               'rows'=>$rows,
+               'useTitle'=>$this->useTitle
            ];
            return view('backend.module',$view);
        }

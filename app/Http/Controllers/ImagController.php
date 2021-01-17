@@ -54,13 +54,18 @@ class ImagController extends Controller
             $rows[] = $tmp;
         };
 
-        $view = [
-            'header'=>'校園映像圖片管理',
-            'module'=>'Image',
-            "cols"=>$cols,
-            'rows'=>$rows
-        ];
-        return view('backend.module',$view);
+        $this->view['header'] = '校園映像圖片管理';
+        $this->view['module'] = 'Image';
+        $this->view['cols'] = $cols;
+        $this->view['rows'] = $rows;
+
+        // $view = [
+        //     'header'=>'校園映像圖片管理',
+        //     'module'=>'Image',
+        //     "cols"=>$cols,
+        //     'rows'=>$rows
+        // ];
+        return view('backend.module',$this->view);
     }
 
     /**

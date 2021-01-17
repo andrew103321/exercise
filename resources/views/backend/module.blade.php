@@ -1,6 +1,6 @@
     @extends('layout.layout')
     @section('main')
-    @include('layout.backend_sidebar')
+    @include('layout.backend_sidebar',['total'=>$total])
         <div class="main col-9 p-0  d-flex flex-wrap align-items-start">
                 <div class="col-8 boder py-2 text-center">後台管理</div>
                 <button class="col-4 btn  btn-light border text-center py-3">管理登出</button>
@@ -80,8 +80,9 @@
             });
 
             $("#addRow").on("click",function(){
+           
                 @isset($menu_id)
-                    $.get("/modals/add{{$module}}/{{menu_id}}",function(modal){
+                    $.get("/modals/add{{$module}}/{{$menu_id}}",function(modal){
                         $("#modal").html(modal);
                         $("#baseModal").modal("show");
                         $("#baseModal").on("hidden.bs.modal",function(){
@@ -89,7 +90,8 @@
                             $("#modal").html("");
                         })
                     })
-                @else
+                @endisset
+                @empty($menu_id)
                     $.get("/modals/add{{$module}}",function(modal){
                         $("#modal").html(modal);
                         $("#baseModal").modal("show");
@@ -98,7 +100,7 @@
                             $("#modal").html("");
                         })
                 })
-                @endif
+                @endempty
             })
 
             $(".edit").on("click",function(){
@@ -130,17 +132,39 @@
             $(".show").on("click",function(){
                 let id = $(this).data("id");
                 let _this = $(this);
+                console.log(_this.text())
                 $.ajax({
                     type:"patch",
                     url:`/admin/{{ strtolower($module) }}/sh/${id}`,
+                    @if ($module=='Title')
+                    success:function(img){
+
+                        if(_this.text()=="顯示"){
+                            $(".show").each((idx,dom)=>{
+                                if($(dom).text()=="隱藏"){
+                                    $(dom).text("顯示")
+                                    return false;
+                                }
+                            })
+                            _this.text("隱藏")
+                        }else{
+                            $(".show").text("隱藏")
+                            _this.text("顯示")
+                        }
+                
+                        $(".header img").attr("src","http://andrew103321.com/storage/"+img.replace("`",""))
+                    }
+                    @else
                     success:function(){
                         if(_this.text()=="顯示"){
                             _this.text("隱藏")
                         }else{
                             _this.text("顯示")
                         }
-                        //location.reload();
+                        location.reload();
                     }
+
+                    @endif
                 })
             })
 

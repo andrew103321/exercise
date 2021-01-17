@@ -14,6 +14,7 @@ class SubMenuController extends Controller
     public function index($menu_id)
     {
         //
+        
         $all = SubMenu::where("menu_id",$menu_id)->get();
         $cols = ["次選單","次選單網址","刪除","操作",""];
         $rows = [];
@@ -46,15 +47,22 @@ class SubMenuController extends Controller
             ];
             $rows[] = $tmp;
         };
+        
+        $this->view['header'] = '次選單管理';
+        $this->view['module'] = 'submenu';
+        $this->view['cols'] = $cols;
+        $this->view['rows'] = $rows;
+        $this->view['menu_id'] = $menu_id;
 
-        $view = [
-            'header'=>'次次選單管理',
-            'module'=>'SubMenu',
-            "cols"=>$cols,
-            'rows'=>$rows,
-            'menu_id'=>$menu_id
-        ];
-        return view('backend.module',$view);
+        
+        // $view = [
+        //     'header'=>'次選單管理',
+        //     'module'=>'submenu',
+        //     "cols"=>$cols,
+        //     'rows'=>$rows,
+        //     'menu_id'=>$menu_id
+        // ];
+        return view('backend.module',$this->view);
     }
 
     /**
@@ -66,7 +74,7 @@ class SubMenuController extends Controller
     {
         //
         $view=[
-            'action'=>'/admin/submenu'.$menu_id,
+            'action'=>'/admin/submenu/'.$menu_id,
             'modal_hearder'=>'新增次選單管理',
             'modal_body'=>[
                 [
@@ -97,15 +105,16 @@ class SubMenuController extends Controller
     public function store(Request $request,$menu_id)
     {
         //
+
         $sub = new SubMenu;
-        $sub = $request->input('text');
-        $sub = $request->input('href');
+        $sub->text = $request->input('text');
+        $sub->href = $request->input('href');
         $sub->menu_id=$menu_id;
         $sub->save();
      
      
      
-     return redirect('/admin/submenu'.$menu_id);
+     return redirect('/admin/submenu/'.$menu_id);
     }
 
     /**
@@ -131,7 +140,7 @@ class SubMenuController extends Controller
         $sub =  SubMenu:: find($id);
 
         $view=[
-            'action'=>'/admin/addsubmenu/'.$id,
+            'action'=>'/admin/submenu/'.$id,
             'method'=>'PATCH',
             'modal_hearder'=>'次選單名稱',
             'modal_body'=>[
@@ -147,7 +156,7 @@ class SubMenuController extends Controller
                     'label'=>'網址',
                     'tag'=>'input',
                     'type'=>'text',
-                    'name'=>'text',
+                    'name'=>'href',
                     'value'=>$sub->href
                 ],
 
@@ -171,15 +180,16 @@ class SubMenuController extends Controller
    
         
         if($sub->text!=$request->input('text')){
-            $sub->href= $request->input('text');
+            $sub->text= $request->input('text');
         }
+
         if($sub->text!=$request->input('href')){
             $sub->href= $request->input('href');
         }
         
         $sub->save();
 
-        return redirect("admin/title".$sub->menu_id);
+        return redirect("admin/submenu/".$sub->menu_id);
     }
 
     /**

@@ -64,13 +64,18 @@ class MenuController extends Controller
             $rows[] = $tmp;
         };
 
-        $view = [
-            'header'=>'選單管理',
-            'module'=>'Menu',
-            "cols"=>$cols,
-            'rows'=>$rows
-        ];
-        return view('backend.module',$view);
+        $this->view['header'] = '選單管理';
+        $this->view['module'] = 'Menu';
+        $this->view['cols'] = $cols;
+        $this->view['rows'] = $rows;
+
+        // $view = [
+        //     'header'=>'選單管理',
+        //     'module'=>'Menu',
+        //     "cols"=>$cols,
+        //     'rows'=>$rows
+        // ];
+        return view('backend.module',$this->view);
     }
 
     /**

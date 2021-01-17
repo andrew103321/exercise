@@ -11,6 +11,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\subMenuController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +41,9 @@ use App\Http\Controllers\subMenuController;
 // --------------- 練習題開始-----------------
 
 Route::view('/','home');
+Route::get('/',[HomeController::class,'index']);
+Route::get('/news',[NewsController::class,'list']);
+Route::get('/login',[AdminController::class,'showLoginForm']);
 Route::redirect('/admin',"/admin/title");
 
 
@@ -113,7 +117,7 @@ Route::get('/modals/addMvim',[MvimController::class,'create']);
 Route::get('/modals/addNews',[NewsController::class,'create']);
 Route::get('/modals/addAdmin',[AdminController::class,'create']);
 Route::get('/modals/addMenu',[MenuController::class,'create']);
-Route::get('/modals/addSubMenu/{menu_id}',[SubMenuController::class,'create']);
+Route::get('/modals/addsubmenu/{menu_id}',[SubMenuController::class,'create']);
 
 
 
